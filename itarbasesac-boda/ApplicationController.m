@@ -10,6 +10,7 @@
 #import "BaseApiController.h"
 #import "AppDelegate.h"
 #import "Domains.h"
+#import "NSArray.h"
 
 @interface ApplicationController()
 
@@ -102,95 +103,71 @@
     }
 }
 
-
-
 - (void) getResourcesAndStore:(void(^)(NSString* message, float percent)) handler callback: (void(^)()) onFinished
 {
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        float total = ([[[self config] imagesAR] count] + [[[self config] videosAR] count]) * 2;
-        float improvement = 100 / total;
+        float total = 0;
+        
+        NSArray* infos = [[[self config] imagesAR] mapObjectsUsingBlock:^id(id obj, NSUInteger idx) {
+            NSLog(@"Archivos info%d.png", idx+1);
+            return [NSString stringWithFormat:@"info%d.png", idx+1];
+        }];
+        
+        NSArray* collectionResources = @[
+            [[self config] minis],
+            [[self config] imagesAR],
+            infos,
+            [[self config] videosAR]
+        ];
+        
+        for (NSArray* resources in collectionResources) {
+            total = total + [resources count];
+        }
+        
+        float improvement = 100 / (total * 2);
         __block float percent = 0;
         
-        for (NSString* nameResource in [[self config] imagesAR])
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                handler(@"Downloading resource...", percent);
-            });
-            BOOL isDir;
-            NSString *filePath = [[self config] pathARResource: nameResource];
-            if (![[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir])
+        for (NSArray* resources in collectionResources) {
+            for (NSString* nameResource in resources)
             {
-                [client getDataWithBase: [[self config] urlBase]
-                            thisService: nameResource
-                              onSuccess:^(NSData * _Nullable data)
-                 {
-                     percent = percent + improvement;
-                     dispatch_async(dispatch_get_main_queue(), ^{
-                         handler(@"Saving resource...", percent);
-                     });
-                     if (data)
-                     {
-                         
-                         percent = percent + improvement;
-                         dispatch_async(dispatch_get_main_queue(), ^{
-                             [data writeToFile:filePath atomically:YES];
-                         });
-                         
-                     }
-                 }
-                                onError:^(NSError * _Nullable error)
-                 {
-                     NSLog(@"Error on get and store resource: %@.", nameResource);
-                     percent = percent + improvement*2;
-                 }];
-            }
-            else
-            {
-                percent = percent + improvement*2;
-            }
-        }
-        
-        for (NSString* nameResource in [[self config] videosAR])
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                handler(@"Downloading resource...", percent);
-            });
-            
-            BOOL isDir;
-            NSString *filePath = [[self config] pathARResource: nameResource];
-            if (![[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir])
-            {
-                [client getDataWithBase: [[self config] urlBase]
-                            thisService: nameResource
-                onSuccess:^(NSData * _Nullable data)
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    handler(@"Downloading resource...", percent);
+                });
+                BOOL isDir;
+                NSString *filePath = [[self config] pathARResource: nameResource];
+                if (![[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir])
                 {
-                     percent = percent + improvement;
-                     dispatch_async(dispatch_get_main_queue(), ^{
-                         handler(@"Saving resource...", percent);
-                     });
-                     if (data)
+                    [client getDataWithBase: [[self config] urlBase]
+                                thisService: nameResource
+                                  onSuccess:^(NSData * _Nullable data)
                      {
-                         
                          percent = percent + improvement;
                          dispatch_async(dispatch_get_main_queue(), ^{
-                             [data writeToFile:filePath atomically:YES];
+                             handler(@"Saving resource...", percent);
                          });
-                         
+                         if (data)
+                         {
+                             
+                             percent = percent + improvement;
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                                 [data writeToFile:filePath atomically:YES];
+                             });
+                             
+                         }
                      }
+                                    onError:^(NSError * _Nullable error)
+                     {
+                         NSLog(@"Error on get and store resource: %@.", nameResource);
+                         percent = percent + improvement*2;
+                     }];
                 }
-                onError:^(NSError * _Nullable error)
+                else
                 {
-                     NSLog(@"Error on get and store resource: %@.", nameResource);
-                     percent = percent + improvement*2;
-                }];
-            }
-            else
-            {
-                percent = percent + improvement*2;
+                    percent = percent + improvement*2;
+                }
             }
         }
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             handler(@"Finished.", percent);
             onFinished();

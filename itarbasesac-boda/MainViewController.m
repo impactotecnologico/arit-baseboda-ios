@@ -12,6 +12,9 @@
 #import "AugmentedViewController.h"
 #import "ApplicationController.h"
 
+//#import <Photos/PHAsset.h>
+//#import <Photos/PHFetchResult.h>
+
 @interface MainViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonMenu;
@@ -61,6 +64,8 @@
     } callback:^{
         [self didFinishedStoreResource];
     }];
+    
+    //PHFetchResult *allPhotosResult = [PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:nil];
 }
 
 - (void)didChangeProcessStoreResourceMessage: (NSString*) message percentProcess:(float) percent

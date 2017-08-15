@@ -65,7 +65,7 @@
         [self setCurrentTypeContent:TypeContentVideo];
         [self setCountResources: [[[self config] videosAR] count]];
         [[self labelInfoMessage] setText: TEXT_HELP_WELCOME];
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"bienvenida_mini" ofType:@"png"];
+        NSString *path = [[self config] pathARResource:@"bienvenida_mini.jpg"];
         [[self imageInfoReference] setImage: [[UIImage alloc] initWithContentsOfFile:path]];
         [[[[self navigationController] navigationBar] topItem] setTitle:TEXT_TITLE_WELCOME];
     }
@@ -74,7 +74,7 @@
         [self setCurrentTypeContent:TypeContentImage];
         [self setCountResources: [[[self config] imagesAR] count]];
         [[self labelInfoMessage] setText: TEXT_HELP_MENU_STEP_1];
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"minuta_mini" ofType:@"png"];
+        NSString *path = [[self config] pathARResource:@"minuta_mini.jpg"];
         [[self imageInfoReference] setImage: [[UIImage alloc] initWithContentsOfFile:path]];
         [[[[self navigationController] navigationBar] topItem] setTitle:TEXT_TITLE_MENU];
     }
@@ -145,8 +145,6 @@
     
     self.viewScanOverlay.hidden = true;
 }
-
-
 
 -(void) updateCurrentScene
 {
