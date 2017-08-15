@@ -11,6 +11,13 @@
 #import "ApplicationController.h"
 #import "ViewUtils.h"
 
+#import <Photos/PHAsset.h>
+#import <Photos/PHFetchResult.h>
+#import <Photos/PHImageManager.h>
+#import <Photos/PHContentEditingInput.h>
+#import <Photos/PHAssetChangeRequest.h>
+
+
 @interface AugmentedViewController() <CraftARSDKProtocol, CraftARContentEventsProtocol, SearchProtocol, CraftARTrackingEventsProtocol>
 
 @property CraftARSDK *sdk;
@@ -146,6 +153,29 @@
     self.viewScanOverlay.hidden = true;
 }
 
+-(void) testContent
+{
+    PHFetchResult* elements = [PHAsset fetchAssetsWithMediaType: PHAssetMediaTypeImage options:nil];
+    
+    PHAsset* asset = [elements objectAtIndex: 0];
+    
+    [asset requestContentEditingInputWithOptions:[[PHContentEditingInputRequestOptions alloc] init] completionHandler:^(PHContentEditingInput * _Nullable contentEditingInput, NSDictionary * _Nonnull info)
+     {
+         //dispatch_async(dispatch_get_main_queue(), ^{
+         //[contentEditingInput fullSizeImageURL];
+         [[self imageInfoReference] setImage: [UIImage imageWithData:[NSData dataWithContentsOfURL: [contentEditingInput fullSizeImageURL]]]];
+         NSLog(@"ok!!!");
+         
+         
+         [self setCart: [[CraftARTrackingContentImage alloc] initWithImageFromURL:[contentEditingInput fullSizeImageURL]]];
+         [[self cart] setWrapMode: CRAFTAR_TRACKING_WRAP_ASPECT_FIT];
+         [[self cart] setScale:CATransform3DMakeScale(1.5, 2.2, 1.5)];
+         [[self currentItem] addContent:[self cart]];
+         //});
+     }];
+
+}
+
 -(void) updateCurrentScene
 {
     // Si cambia el contenido se borra el cart...
@@ -241,16 +271,14 @@
         {
             NSLog(@"isKindOfClass CraftARItemAR");
             [self setCurrentItem: (CraftARItemAR*)item];
-            if ([[item name] isEqualToString: AR_COLLECTION_TYPE_MEMORANDUM] && [[self action] isEqualToString: ACTION_MENU])
+            if ([[item name] isEqualToString: AR_COLLECTION_TYPE_MEMORANDUM] || [[item name] isEqualToString: AR_COLLECTION_TYPE_WELCOME])
             {
-                NSLog(@"AR_COLLECTION_TYPE_MEMORANDUM && ACTION_MENU");
-                [self augmentedContent];
+                //[self augmentedContent];
+                
+                [self testContent];
             }
-            else if ([[item name] isEqualToString: AR_COLLECTION_TYPE_WELCOME] && [[self action] isEqualToString: ACTION_VIDEO])
-            {
-                NSLog(@"AR_COLLECTION_TYPE_WELCOME && ACTION_VIDEO");
-                [self augmentedContent];
-            }
+            
+            
             
             NSError *err = [[self tracking] addARItem: [self currentItem]];
             if (err) {
