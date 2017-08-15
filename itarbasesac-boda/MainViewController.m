@@ -11,12 +11,12 @@
 #import "MainViewController.h"
 #import "AugmentedViewController.h"
 #import "ApplicationController.h"
-
+/*
 #import <Photos/PHAsset.h>
 #import <Photos/PHFetchResult.h>
 #import <Photos/PHImageManager.h>
 #import <Photos/PHContentEditingInput.h>
-#import <Photos/PHAssetChangeRequest.h>
+#import <Photos/PHAssetChangeRequest.h>*/
 
 @interface MainViewController ()
 
@@ -68,7 +68,7 @@
         [self didFinishedStoreResource];
     }];
     
-    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+    /*[PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (status == PHAuthorizationStatusAuthorized)
             {
@@ -90,7 +90,7 @@
                 NSLog(@"Booh!");
             }
         });
-    }];
+    }];*/
     
     
     

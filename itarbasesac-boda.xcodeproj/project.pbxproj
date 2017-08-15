@@ -145,6 +145,7 @@
 		5805A4F61F3C36C500E656C5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				584CD6171F43B3AF00AA5909 /* Extensions */,
 				58A4B57C1F3E23C3002D6669 /* Helpers */,
 				583D8EB21F3FFA4200BB60AF /* BaseApiController.h */,
 				583D8EB31F3FFA4200BB60AF /* BaseApiController.m */,
@@ -174,6 +175,15 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
+		584CD6171F43B3AF00AA5909 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				584CD6141F42E0E300AA5909 /* NSArray.h */,
+				584CD6151F42E0E300AA5909 /* NSArray.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		58716EDA1F418CEB00B96F73 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,8 +199,6 @@
 				58A4B57D1F3E23DA002D6669 /* Constants.h */,
 				58A4B57E1F3E23DA002D6669 /* Constants.m */,
 				583D8EB81F4174A400BB60AF /* Domains.h */,
-				584CD6141F42E0E300AA5909 /* NSArray.h */,
-				584CD6151F42E0E300AA5909 /* NSArray.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";

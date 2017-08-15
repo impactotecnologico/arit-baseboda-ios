@@ -273,9 +273,8 @@
             [self setCurrentItem: (CraftARItemAR*)item];
             if ([[item name] isEqualToString: AR_COLLECTION_TYPE_MEMORANDUM] || [[item name] isEqualToString: AR_COLLECTION_TYPE_WELCOME])
             {
-                //[self augmentedContent];
-                
-                [self testContent];
+                [self augmentedContent];
+                //[self testContent];
             }
             
             

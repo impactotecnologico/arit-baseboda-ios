@@ -109,7 +109,6 @@
         float total = 0;
         
         NSArray* infos = [[[self config] imagesAR] mapObjectsUsingBlock:^id(id obj, NSUInteger idx) {
-            NSLog(@"Archivos info%d.png", idx+1);
             return [NSString stringWithFormat:@"info%d.png", idx+1];
         }];
         
