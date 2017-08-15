@@ -36,7 +36,9 @@
 		<string>TLSv1.0</string>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs to access your device's camera</string>
+	<string>This app needs to access your device&apos;s camera</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs to access your gallery.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch</string>
 	<key>UIMainStoryboardFile</key>
