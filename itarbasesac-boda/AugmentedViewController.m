@@ -6,17 +6,10 @@
 //  Copyright © 2017 Luis Martinell Andreu. All rights reserved.
 //
 
-#import "Constants.h"
 #import "AugmentedViewController.h"
 #import "ApplicationController.h"
 #import "ViewUtils.h"
-
-#import <Photos/PHAsset.h>
-#import <Photos/PHFetchResult.h>
-#import <Photos/PHImageManager.h>
-#import <Photos/PHContentEditingInput.h>
-#import <Photos/PHAssetChangeRequest.h>
-
+#import "Constants.h"
 
 @interface AugmentedViewController() <CraftARSDKProtocol, CraftARContentEventsProtocol, SearchProtocol, CraftARTrackingEventsProtocol>
 
@@ -62,9 +55,11 @@
     [self setIsVisibleCard:NO];
     
     [[ApplicationController Instance] getConfigOnSuccess:^(Config * config)
-    {
-        [self setConfig:config];
-    }];
+     {
+         [self setConfig:config];
+     }];
+    
+    [[ApplicationController Instance] setContinueProccess:YES];
     
     [[self viewInfoBackground] setBackgroundColor:[UIColor whiteColor]];
     if ([[self action] isEqualToString: ACTION_VIDEO])
@@ -104,6 +99,8 @@
 
 - (void) viewWillDisappear:(BOOL)animated
 {
+    [[ApplicationController Instance] setContinueProccess:NO];
+    [[ApplicationController Instance] clearScenesOfType: [self currentTypeContent]];
     [[self sdk]  stopCapture];
     [[self tracking]  removeAllARItems];
     [super viewWillDisappear:animated];
@@ -122,29 +119,32 @@
         NSLog(@"Adding Controls");
         NSString *prevPath = [[NSBundle mainBundle] pathForResource:@"prev" ofType:@"png"];
         [self setPrevButton: [self makeButtonWithResource:[NSURL fileURLWithPath: prevPath]
-                                               withScale: CATransform3DMakeScale(0.6, 0.6, 0.6)
-                                          withTransition: CATransform3DMakeTranslation(-240, -261.33, 82.68)]];
+                                                withScale: CATransform3DMakeScale(0.6, 0.6, 0.6)
+                                           withTransition: CATransform3DMakeTranslation(-240, -261.33, 82.68)]];
         
         NSString *nextPath = [[NSBundle mainBundle] pathForResource:@"next" ofType:@"png"];
         [self setNextButton: [self makeButtonWithResource:[NSURL fileURLWithPath: nextPath]
-                                               withScale: CATransform3DMakeScale(0.6, 0.6, 0.6)
-                                          withTransition: CATransform3DMakeTranslation(240, -261.33, 82.68)]];
+                                                withScale: CATransform3DMakeScale(0.6, 0.6, 0.6)
+                                           withTransition: CATransform3DMakeTranslation(240, -261.33, 82.68)]];
     }
     
     [self updateCurrentScene];
     
     switch ([self currentTypeContent]) {
         case TypeContentImage:
-            {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(),
-                ^{
-                    [[self labelInfoMessage] setText: TEXT_HELP_MENU_STEP_2];
-                    [[ApplicationController Instance] getConfigOnSuccess:^(Config * config) {
-                        [[self viewInfoBackground] setBackgroundColor: [ViewUtils colorFromHexString: [config colorRosa]]];
-                    }];
-                });
-                break;
-            }
+        {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(),
+            ^{
+                if ([[ApplicationController Instance] continueProccess])
+                {
+                   [[self labelInfoMessage] setText: TEXT_HELP_MENU_STEP_2];
+                   [[ApplicationController Instance] getConfigOnSuccess:^(Config * config) {
+                       [[self viewInfoBackground] setBackgroundColor: [ViewUtils colorFromHexString: [config colorRosa]]];
+                   }];
+                }
+            });
+            break;
+        }
             
         default:
             break;
@@ -153,33 +153,10 @@
     self.viewScanOverlay.hidden = true;
 }
 
--(void) testContent
-{
-    PHFetchResult* elements = [PHAsset fetchAssetsWithMediaType: PHAssetMediaTypeImage options:nil];
-    
-    PHAsset* asset = [elements objectAtIndex: 0];
-    
-    [asset requestContentEditingInputWithOptions:[[PHContentEditingInputRequestOptions alloc] init] completionHandler:^(PHContentEditingInput * _Nullable contentEditingInput, NSDictionary * _Nonnull info)
-     {
-         //dispatch_async(dispatch_get_main_queue(), ^{
-         //[contentEditingInput fullSizeImageURL];
-         [[self imageInfoReference] setImage: [UIImage imageWithData:[NSData dataWithContentsOfURL: [contentEditingInput fullSizeImageURL]]]];
-         NSLog(@"ok!!!");
-         
-         
-         [self setCart: [[CraftARTrackingContentImage alloc] initWithImageFromURL:[contentEditingInput fullSizeImageURL]]];
-         [[self cart] setWrapMode: CRAFTAR_TRACKING_WRAP_ASPECT_FIT];
-         [[self cart] setScale:CATransform3DMakeScale(1.5, 2.2, 1.5)];
-         [[self currentItem] addContent:[self cart]];
-         //});
-     }];
-
-}
-
 -(void) updateCurrentScene
 {
     // Si cambia el contenido se borra el cart...
-    [self setCart: nil];
+    [self removeCart];
     
     if ([self currentScene])
     {
@@ -212,22 +189,33 @@
     return content;
 }
 
+-(void) removeCart
+{
+    
+    if ([self cart])
+    {
+        [[self currentItem] removeContent: [self cart]];
+        [self setIsVisibleCard: NO];
+        [self setCart: nil];
+    }
+}
+
 -(void) toggleCard
 {
     if ([self isVisibleCard])
     {
-        [[self currentItem] removeContent: [self cart]];
-        [self setIsVisibleCard: NO];
+        [self removeCart];
     }
     else
     {
         if ([self cart] == nil)
         {
-            NSString *pathResource = [[self config] pathARResource: [NSString stringWithFormat:@"info%d.png", [self currentIndex]]];
+            NSString *pathResource = [[self config] pathARResource: [NSString stringWithFormat:@"info%d.png", [self currentIndex]+1]];
             CraftARTrackingContent* content = [[CraftARTrackingContentImage alloc] initWithImageFromURL: [NSURL fileURLWithPath:pathResource]];
             [content setWrapMode: CRAFTAR_TRACKING_WRAP_ASPECT_FIT];
             [content setTranslation: CATransform3DMakeTranslation(0.0, 0.0, 142.63)];
             [content setScale: CATransform3DMakeScale(1.6, 1.6, 1.6)];
+            [self setCart:content];
         }
         
         [[self currentItem] addContent:[self cart]];
@@ -257,7 +245,7 @@
     }];
 }
 
-    
+
 - (void) didGetSearchResults:(NSArray *)results {
     
     NSLog(@"didGetSearchResults");
@@ -274,7 +262,6 @@
             if ([[item name] isEqualToString: AR_COLLECTION_TYPE_MEMORANDUM] || [[item name] isEqualToString: AR_COLLECTION_TYPE_WELCOME])
             {
                 [self augmentedContent];
-                //[self testContent];
             }
             
             
@@ -282,6 +269,10 @@
             NSError *err = [[self tracking] addARItem: [self currentItem]];
             if (err) {
                 NSLog(@"Error adding AR item: %@", err.localizedDescription);
+            }
+            else
+            {
+                [[self tracking] startTracking];
             }
         }
     }
@@ -319,7 +310,7 @@
         case CRAFTAR_CONTENT_TOUCH_DOWN:
             NSLog(@"Touch down: %@", content.uuid);
             
-            if ([[[self prevButton] uuid] isEqualToString: content.uuid]) // touch prev button
+            if ([content isEqual:[self prevButton]])//([[[self prevButton] uuid] isEqualToString: content.uuid]) // touch prev button
             {
                 if ([self currentIndex] > 0)
                 {
@@ -332,7 +323,7 @@
                 
                 [self updateCurrentScene];
             }
-            else if ([[[self nextButton] uuid] isEqualToString: content.uuid]) // touch next button
+            else if ([content isEqual:[self nextButton]])//([[[self nextButton] uuid] isEqualToString: content.uuid]) // touch next button
             {
                 int lastResource = [self countResources] - 1;
                 if ([self currentIndex] >= lastResource)

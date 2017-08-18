@@ -53,7 +53,7 @@
             break;
     }
     
-    id resource = [resources objectForKey: [NSString stringWithFormat:@"%d",index]];
+    id resource = [resources objectForKey: [NSString stringWithFormat:@"%d", index]];
     
     if (resource)
     {
@@ -63,10 +63,24 @@
     if (scene == nil)
     {
         scene = [Scene makeSceneAt:index ofType:type];
-        [resources setValue:scene forKey: [NSString stringWithFormat:@"%d",index]];
+        [resources setValue:scene forKey: [NSString stringWithFormat:@"%d", index]];
     }
     
     return scene;
+}
+
+-(void) clearScenesOfType: (TypeContent) type
+{
+    switch (type) {
+        case TypeContentImage:
+            [[self scenesImage] removeAllObjects];
+            break;
+        case TypeContentVideo:
+            [[self scenesVideo] removeAllObjects];
+            break;
+        default:
+            break;
+    }
 }
 
 + (ApplicationController*) Instance

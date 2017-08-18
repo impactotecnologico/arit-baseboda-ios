@@ -67,33 +67,6 @@
     } callback:^{
         [self didFinishedStoreResource];
     }];
-    
-    /*[PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (status == PHAuthorizationStatusAuthorized)
-            {
-                PHFetchResult* elements = [PHAsset fetchAssetsWithMediaType: PHAssetMediaTypeImage options:nil];
-                
-                PHAsset* asset = [elements objectAtIndex: 0];
-                
-                [asset requestContentEditingInputWithOptions:[[PHContentEditingInputRequestOptions alloc] init] completionHandler:^(PHContentEditingInput * _Nullable contentEditingInput, NSDictionary * _Nonnull info)
-                {
-                    //[contentEditingInput fullSizeImageURL];
-                    [[self testImage] setImage: [UIImage imageWithData:[NSData dataWithContentsOfURL: [contentEditingInput fullSizeImageURL]]]];
-                    
-                }];
-                
-                NSLog(@"Cantidad de fotos : %d.", [elements count]);
-            }
-            else
-            {
-                NSLog(@"Booh!");
-            }
-        });
-    }];*/
-    
-    
-    
 }
 
 - (void)didChangeProcessStoreResourceMessage: (NSString*) message percentProcess:(float) percent

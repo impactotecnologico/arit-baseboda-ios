@@ -36,7 +36,7 @@
     BOOL isDir;
     if (![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir])
         if (![[NSFileManager defaultManager] createDirectoryAtPath:path
-                                   withIntermediateDirectories:NO
+                                   withIntermediateDirectories:YES
                                                     attributes:nil
                                                          error:&error])
         {
