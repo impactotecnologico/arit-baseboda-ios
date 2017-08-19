@@ -22,7 +22,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonMenu;
 @property (weak, nonatomic) IBOutlet UIButton *buttonVideo;
-@property (weak, nonatomic) IBOutlet UIImageView *testImage;
 @property (weak, nonatomic) IBOutlet UIView *viewProcessDialog;
 @property (weak, nonatomic) IBOutlet UILabel *labelProcessMessage;
 @property (weak, nonatomic) IBOutlet UILabel *labelProcessPercent;
@@ -47,20 +46,12 @@
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [[[[self navigationController] navigationBar] topItem] setTitle:@""];
+    [[[[self navigationController] navigationBar] topItem] setTitle:@"TecnoBoda"];
 }
 
 - (void)didReceiveConfig: (Config*) config
 {
     NSLog(@"didReceiveConfig");
-    
-    NSString *path = [config pathARResource:@"churrasco.png"];
-    NSLog(path);
-    UIImage *storeImage = [UIImage imageWithContentsOfFile:path];
-    if (storeImage)
-    {
-        [[self testImage] setImage:storeImage];
-    }
     
     [[ApplicationController Instance] getResourcesAndStore:^(NSString *message, float percent) {
         [self didChangeProcessStoreResourceMessage:message percentProcess:percent];

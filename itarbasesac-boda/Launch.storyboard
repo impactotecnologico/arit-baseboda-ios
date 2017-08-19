@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,17 +22,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ItarBaseSac" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1f-bx-R0M">
-                                <rect key="frame" x="141.5" y="323" width="91.5" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9OS-86-L35">
+                                <rect key="frame" x="123.5" y="246" width="128" height="175"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="Icon-App-76x76" translatesAutoresizingMaskIntoConstraints="NO" id="TRk-y0-Ixm">
+                                        <rect key="frame" x="0.0" y="20" width="128" height="128"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="TRk-y0-Ixm" secondAttribute="height" multiplier="1:1" id="KWV-3O-Qjv"/>
+                                            <constraint firstAttribute="width" constant="128" id="KjC-EM-QsV"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TecnoBoda" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1f-bx-R0M">
+                                        <rect key="frame" x="23.5" y="156" width="81" height="19"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.69929901541095896" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="j1f-bx-R0M" firstAttribute="top" secondItem="TRk-y0-Ixm" secondAttribute="bottom" constant="8" id="2tI-oU-gk0"/>
+                                    <constraint firstItem="TRk-y0-Ixm" firstAttribute="leading" secondItem="9OS-86-L35" secondAttribute="leading" id="39T-xG-CJu"/>
+                                    <constraint firstItem="TRk-y0-Ixm" firstAttribute="top" secondItem="9OS-86-L35" secondAttribute="top" constant="20" id="BUB-ce-RXf"/>
+                                    <constraint firstAttribute="bottom" secondItem="j1f-bx-R0M" secondAttribute="bottom" id="FAc-ED-lOh"/>
+                                    <constraint firstAttribute="trailing" secondItem="TRk-y0-Ixm" secondAttribute="trailing" id="Zqx-Dt-VA0"/>
+                                    <constraint firstItem="j1f-bx-R0M" firstAttribute="centerX" secondItem="9OS-86-L35" secondAttribute="centerX" id="uaT-kP-ukJ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="j1f-bx-R0M" firstAttribute="centerY" secondItem="FGm-cp-hw2" secondAttribute="centerY" id="XP0-Oe-BXh"/>
-                            <constraint firstItem="j1f-bx-R0M" firstAttribute="centerX" secondItem="FGm-cp-hw2" secondAttribute="centerX" id="kFb-Pu-9HV"/>
+                            <constraint firstItem="9OS-86-L35" firstAttribute="centerX" secondItem="FGm-cp-hw2" secondAttribute="centerX" id="LWD-x4-vuN"/>
+                            <constraint firstItem="9OS-86-L35" firstAttribute="centerY" secondItem="FGm-cp-hw2" secondAttribute="centerY" id="nW0-JF-LI6"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -40,4 +62,7 @@
             <point key="canvasLocation" x="-158" y="160"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Icon-App-76x76" width="76" height="76"/>
+    </resources>
 </document>

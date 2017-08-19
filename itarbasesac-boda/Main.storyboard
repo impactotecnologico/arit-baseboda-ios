@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -67,12 +66,6 @@
                                     <action selector="onTapButton:" destination="UyH-Rn-ZMc" eventType="touchUpInside" id="Izb-ET-Crh"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ifh-WS-7bb">
-                                <rect key="frame" x="25" y="473" width="326" height="174"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Ifh-WS-7bb" secondAttribute="height" multiplier="15:8" id="h42-5F-DDV"/>
-                                </constraints>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nOU-3w-1jv">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
@@ -125,10 +118,7 @@
                             <constraint firstItem="nOU-3w-1jv" firstAttribute="height" secondItem="2hM-Eh-eOb" secondAttribute="height" id="3pF-lA-XI7"/>
                             <constraint firstItem="nOU-3w-1jv" firstAttribute="width" secondItem="2hM-Eh-eOb" secondAttribute="width" id="5pA-tU-fOe"/>
                             <constraint firstItem="5sQ-cb-6h4" firstAttribute="centerX" secondItem="2hM-Eh-eOb" secondAttribute="centerX" id="RTV-Vo-pr9"/>
-                            <constraint firstItem="Ifh-WS-7bb" firstAttribute="leading" secondItem="2hM-Eh-eOb" secondAttribute="leadingMargin" constant="9" id="ZCC-6T-hpZ"/>
-                            <constraint firstItem="oJm-hE-f05" firstAttribute="top" secondItem="Ifh-WS-7bb" secondAttribute="bottom" constant="20" id="aAm-qF-W5O"/>
                             <constraint firstItem="Pzf-uw-byE" firstAttribute="top" secondItem="5sQ-cb-6h4" secondAttribute="bottom" constant="25" id="jE7-98-Ccl"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Ifh-WS-7bb" secondAttribute="trailing" constant="8" id="kmR-Mr-Vsh"/>
                             <constraint firstItem="nOU-3w-1jv" firstAttribute="centerX" secondItem="2hM-Eh-eOb" secondAttribute="centerX" id="n7h-sF-aj6"/>
                             <constraint firstItem="5sQ-cb-6h4" firstAttribute="top" secondItem="a9x-EA-8Bw" secondAttribute="bottom" constant="52" id="nkB-Xq-vg6"/>
                             <constraint firstItem="nOU-3w-1jv" firstAttribute="centerY" secondItem="2hM-Eh-eOb" secondAttribute="centerY" id="u5b-4H-lX0"/>
@@ -140,7 +130,6 @@
                         <outlet property="buttonVideo" destination="Pzf-uw-byE" id="iUk-5G-tfE"/>
                         <outlet property="labelProcessMessage" destination="JQI-vq-qVF" id="S2O-iy-2IF"/>
                         <outlet property="labelProcessPercent" destination="jYh-yC-o44" id="E06-tg-CWz"/>
-                        <outlet property="testImage" destination="Ifh-WS-7bb" id="5hh-ZF-1MA"/>
                         <outlet property="viewProcessDialog" destination="nOU-3w-1jv" id="H8t-QO-M4e"/>
                         <segue destination="tRf-9J-4ue" kind="show" identifier="AugmentedSegue" id="6N4-WE-acu"/>
                     </connections>

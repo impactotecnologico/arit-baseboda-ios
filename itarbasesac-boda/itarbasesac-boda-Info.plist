@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>TecnoBoda</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIcons</key>
@@ -36,7 +36,7 @@
 		<string>TLSv1.0</string>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs to access your device&apos;s camera</string>
+	<string>This app needs to access your device's camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs to access your gallery.</string>
 	<key>UILaunchStoryboardName</key>

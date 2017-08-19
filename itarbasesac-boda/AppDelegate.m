@@ -11,14 +11,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    /*NSDictionary *attribs = [NSDictionary dictionaryWithObjectsAndKeys:
-    [UIColor colorWithRed:170.0/255.0 green:21.0/255.0 blue:29.0/255.0 alpha:1.0],
-    UITextAttributeTextColor,
-    [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.0],
-    UITextAttributeTextShadowColor, nil];
-    [[UINavigationBar appearance] setTitleTextAttributes: attribs];
-    [[UIBarButtonItem appearance] setTitleTextAttributes: attribs forState:UIControlStateNormal];*/
-    
     return YES;
 }
 
